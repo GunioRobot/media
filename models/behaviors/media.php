@@ -35,7 +35,7 @@ class MediaBehavior extends ModelBehavior {
  * Default settings
  *
  * metadataLevel
- * 	0 - (disabled) No retrieval of additional metadata
+ *  0 - (disabled) No retrieval of additional metadata
  *  1 - (basic) Adds `mime_type` and `size` fields
  *  2 - (detailed) Adds Multiple fields dependent on the type of the file e.g. `artist`, `title`
  *
@@ -302,8 +302,10 @@ class MediaBehavior extends ModelBehavior {
 
 		$relativeDirectory = DS . rtrim(dirname($relativeFile), '.');
 
-		//small patch for windows.. 
-		if(Folder::isWindowsPath($filterDirectory)) $relativeDirectory = str_replace('/', '\\', $relativeDirectory);
+//small patch for windows..
+
+	        if(Folder::isWindowsPath($filterDirectory)) $relativeDirectory = str_replace('/', '\\', $relativeDirectory);
+
 
 		$name = Medium::name($file);
 		$filter = Configure::read('Media.filter.' . strtolower($name));
@@ -378,6 +380,7 @@ class MediaBehavior extends ModelBehavior {
 
 			if ($Medium->name === 'Audio') {
 				$data[2] = array(
+					'medium_name'	=> $Medium->name,
 					'artist'        => $Medium->artist(),
 					'album'         => $Medium->album(),
 					'title'         => $Medium->title(),
@@ -390,6 +393,7 @@ class MediaBehavior extends ModelBehavior {
 				);
 			} elseif ($Medium->name === 'Image') {
 				$data[2] = array(
+					'medium_name'=> $Medium->name,
 					'width'     => $Medium->width(),
 					'height'    => $Medium->height(),
 					'ratio'     => $Medium->ratio(),
@@ -398,6 +402,7 @@ class MediaBehavior extends ModelBehavior {
 				);
 			} elseif ($Medium->name === 'Text') {
 				$data[2] = array(
+					'medium_name'	  => $Medium->name,
 					'characters'      => $Medium->characters(),
 					'syllables'       => $Medium->syllables(),
 					'sentences'       => $Medium->sentences(),
@@ -407,6 +412,7 @@ class MediaBehavior extends ModelBehavior {
 				);
 			} elseif ($Medium->name === 'Video') {
 				$data[2] = array(
+					'medium_name'	=> $Medium->name,
 					'title'   => $Medium->title(),
 					'year'    => $Medium->year(),
 					'length'  => $Medium->duration(),
